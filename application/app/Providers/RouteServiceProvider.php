@@ -31,7 +31,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->routes(function () {
             $this->setApiVersion()
                 ->mapApiRoutes()
-                ->registerUserRoutes();
+                ->registerUserRoutes()
+                ->registerCurrencyConversionRoutes();
         });
     }
 
@@ -74,6 +75,21 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace('\\Auth\\Http\\Controllers')
             ->middleware('api')
             ->group(base_path('modules/Auth/routes/api.php'));
+
+        return $this;
+    }
+
+    /**
+     * Register the currency conversion routes for the CurrencyConversion module.
+     *
+     * @return $this
+     */
+    public function registerCurrencyConversionRoutes(): static
+    {
+        Route::prefix($this->getApiPrefix())
+            ->namespace('\\CurrencyConversion\\Http\\Controllers')
+            ->middleware('api')
+            ->group(base_path('modules/CurrencyConversion/routes/api.php'));
 
         return $this;
     }
