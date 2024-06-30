@@ -1,0 +1,63 @@
+version: '3.3'
+
+services:
+    mysql:
+        image: mysql:8.3
+        container_name: currency-exchange-mysql
+        volumes:
+            - ./mysql/data/:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=exchange
+            - MYSQL_USER=user
+            - MYSQL_PASSWORD=123
+        networks:
+            - exchange
+
+    php-fpm:
+        build:
+            context: .
+            dockerfile: ./php/Dockerfile
+            args:
+                WORKDIR: /var/www/html/
+        container_name: currency-exchange-php-fpm
+        volumes:
+            - ./php/php.ini:/usr/local/etc/php/conf.d/docker-php-zzz-overrides.ini
+            - ./logs:/var/log/xdebug
+            - ./application/:/var/www/html/currency-exchange
+        extra_hosts:
+            # Solves docker bug when using with xdebug
+            - host.docker.internal:host-gateway
+        networks:
+            - exchange
+
+    nginx:    
+        image: nginx:1.25-alpine
+        container_name: currency-exchange-nginx
+        volumes:            
+            - ./nginx/config/nginx.conf:/etc/nginx/conf.d/default.conf
+            - ./nginx/ssl:/etc/nginx/ssl   
+            - ./logs:/var/log/nginx             
+            - ./application/:/var/www/html/currency-exchange
+            - phpmyadmin:/var/www/html
+        ports:
+            - "80:80"
+            - "443:443"
+        networks:
+            exchange:
+                aliases:
+                    - app.currency-exchange.dev
+        depends_on:
+            - php-fpm
+
+    redis:
+        image: redis:6.2
+        container_name: currency-exchange-redis    
+        networks:
+            - exchange
+
+volumes:
+    phpmyadmin:
+
+networks:
+    exchange:
+        driver: bridge
