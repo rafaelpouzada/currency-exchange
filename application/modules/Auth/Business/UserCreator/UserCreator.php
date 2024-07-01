@@ -66,7 +66,7 @@ class UserCreator implements Contracts\IUserCreator
     {
         $validator = Validator::make($attributes, [
             'name'                  => 'required|string|max:50',
-            'email'                 => 'required|string|max:50|unique:users,email',
+            'email'                 => 'required|email|max:50|unique:users,email',
             'password'              => 'required|string|min:8|confirmed',
             'password_confirmation' => 'required|string|min:8',
         ]);

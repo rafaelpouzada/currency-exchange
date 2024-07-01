@@ -19,7 +19,7 @@ class Authenticate
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        if (!Auth::guard()->validate()) {
+        if (!Auth::guard('api')->check()) {
             throw new ClientException('Unauthorized access.', 401);
         }
 

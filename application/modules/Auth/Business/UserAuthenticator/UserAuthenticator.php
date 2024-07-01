@@ -6,6 +6,7 @@ use Auth\Entities\User;
 use Auth\Repositories\Contracts\IUserRepository;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UserAuthenticator implements Contracts\IUserAuthenticator
 {
@@ -32,27 +33,26 @@ class UserAuthenticator implements Contracts\IUserAuthenticator
      *
      * @param array $attributes
      * @return User
-     * @throws AuthenticationException
      */
     public function auth(array $attributes): User
     {
-        if (!Auth::attempt($attributes)) {
-            throw new AuthenticationException('Invalid credentials.');
-        }
+        $this->validateAttributes($attributes);
+        return $this->userRepository->authenticate($attributes);
+    }
 
-        $user = Auth::user();
-        if (!$user) {
-            throw new AuthenticationException('User not found.');
-        }
+    /**
+     * Validate the attributes.
+     *
+     * @param array $attributes
+     * @return void
+     */
+    protected function validateAttributes(array $attributes): void
+    {
+        $validator = Validator::make($attributes, [
+            'email'     => 'required|email|max:50',
+            'password'  => 'required|string|min:8',
+        ]);
 
-        $tokenResult    = $user->createToken('accessToken');
-        $token          = [
-            'access_token'  => $tokenResult->accessToken,
-            'expires_at'    => $tokenResult->token->expires_at,
-        ];
-
-        $user->setAttribute('token', $token);
-
-        return new User($user->toArray());
+        $validator->validate();
     }
 }
