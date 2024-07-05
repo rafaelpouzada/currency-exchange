@@ -1,17 +1,17 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import Toast from 'vue-toastification';
-import store from './store';
+import { store } from './plugins/vuex';  // Certifique-se que o caminho está correto
 import './plugins/vuetify';
 import App from './App';
 import routes from './route/routes';
 
-import './../sass/app.scss'
+import './../sass/app.scss';
 import 'vue-toastification/dist/index.css';
 
-Vue.use(BootstrapVue)
-Vue.use(IconsPlugin)
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
 Vue.use(VueRouter);
 Vue.use(Toast);
 
@@ -34,8 +34,6 @@ router.beforeEach((to, from, next) => {
         next();
     }
 });
-
-export { router };
 
 new Vue({
     el: '#app',

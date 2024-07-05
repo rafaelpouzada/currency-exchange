@@ -45,7 +45,15 @@
 <script>
 import axios from "axios";
 
+import { mapGetters } from 'vuex';
+
 export default {
+    computed: {
+        ...mapGetters('user', ['userData']), // Use 'user/userData' se namespaced
+    },
+    created() {
+        console.log(this.userData);  // Verificar o valor do getter
+    },
     data: () => ({
         valid: true,
         email: '',
@@ -57,6 +65,7 @@ export default {
         passwordRules: [
             v => !!v || 'Password is required',
         ],
+        apiErrors: {},
     }),
 
     methods: {
@@ -66,22 +75,24 @@ export default {
                     email: this.email,
                     password: this.password,
                 })
-                .then(response => {
-                    // Handle successful registration
-                    const accessToken = response.data.data.token.access_token;
-                    localStorage.setItem('user-token', accessToken);
-                    this.$store.commit('SET_USER_DATA', response.data.data);
-                    this.$router.push({ name: 'admin.home' });
-                })
-                .catch(error => {
-                    // Handle error during registration
-                    let errorMessage = 'An error occurred while authenticating';
-                    if (error.response && error.response.data && error.response.data.errors) {
-                        errorMessage   = error.response.data.message;
-                        this.apiErrors = error.response.data.errors;
-                    }
-                    this.$toast.error(errorMessage);
-                });
+                    .then(response => {
+                        // Handle successful registration
+                        const userData      = response.data.data;
+                        const accessToken   = userData.token.access_token;
+                        localStorage.setItem('user-token', accessToken);
+                        this.$store.dispatch('user/setUserData', userData); // Adicione o namespace 'user'
+                        this.$router.push({ name: 'admin.home' });
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        // Handle error during registration
+                        let errorMessage = 'An error occurred while authenticating';
+                        if (error.response && error.response.data && error.response.data.errors) {
+                            errorMessage   = error.response.data.message;
+                            this.apiErrors = error.response.data.errors;
+                        }
+                        this.$toast.error(errorMessage);
+                    });
             }
         },
         clearApiError(field) {

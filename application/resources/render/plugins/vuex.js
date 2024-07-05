@@ -1,7 +1,7 @@
 import Vue from 'vue';
-import Vuex, { Store } from 'vuex';
-import config from '../store';
+import Vuex from 'vuex';
+import store from '../store';  // Certifique-se que o caminho está correto
 
 Vue.use(Vuex);
 
-export const store = new Store(config);
+export { store };
