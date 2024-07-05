@@ -1,66 +1,50 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# API de Conversão de Moedas
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este projeto é uma API REST projetada para realizar a conversão de moedas utilizando taxas de conversão atualizadas de um serviço externo. A API registra cada transação de conversão com todas as informações relacionadas e fornece um endpoint para consultar as transações realizadas por um usuário.
 
-## About Laravel
+## Funcionalidades
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. **Conversão de Moedas**: A API suporta a conversão entre pelo menos quatro moedas: BRL, USD, EUR, JPY.
+2. **Taxas de Conversão**: As taxas de conversão são obtidas da [API de Taxas de Câmbio](http://api.exchangeratesapi.io/latest?base=EUR). Note que a versão gratuita desta API tem limitações de requisições e suporta conversões apenas com base na moeda EUR.
+3. **Persistência de Transações**: As transações de conversão são persistidas em um banco de dados embutido com as seguintes informações:
+    - ID do usuário
+    - Moeda de origem
+    - Valor de origem
+    - Moeda de destino
+    - Taxa de conversão utilizada
+    - Data/Hora em UTC
+4. **Resposta de Transação Bem-sucedida**: Uma transação bem-sucedida retorna as seguintes informações:
+    - ID da transação
+    - ID do usuário
+    - Moeda de origem
+    - Valor de origem
+    - Moeda de destino
+    - Valor de destino
+    - Taxa de conversão utilizada
+    - Data/Hora em UTC
+5. **Tratamento de Erros**: Em caso de falha, a API retorna um código de status pertinente e descrição no corpo.
+6. **Consulta de Transações**: Um endpoint é fornecido para listar todas as transações realizadas por um usuário.
+7. **Testes**: A API inclui cobertura de testes satisfatória.
+8. **Documentação**: Este README fornece instruções sobre como executar a aplicação e uma visão geral do projeto, incluindo seu propósito, funcionalidades, motivação para as escolhas de tecnologia e separação de camadas.
+9. **Idioma**: Todo o código é escrito em inglês.
+10. **Entrega**: O projeto é entregue via um repositório do GitHub.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Visão Geral do Projeto
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Este projeto é uma API de Conversão de Moedas construída com PHP, Laravel, e Vue.js. A escolha dessas tecnologias foi motivada por suas características únicas e benefícios que elas trazem para o desenvolvimento de aplicações web.
 
-## Learning Laravel
+### PHP e Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+PHP é uma linguagem de programação amplamente utilizada para o desenvolvimento web. É conhecida por sua simplicidade e flexibilidade, tornando-a uma escolha popular para muitos desenvolvedores.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Laravel, por outro lado, é um framework PHP que simplifica muitas das tarefas comuns no desenvolvimento web, como roteamento, autenticação, sessões e caching.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Além disso, Laravel oferece uma sintaxe expressiva e elegante que torna o código mais legível e fácil de manter. Ele também vem com uma variedade de ferramentas e recursos prontos para uso, como o Eloquent ORM para interação com o banco de dados, e o sistema de migrações para controle de versão do banco de dados.
 
-## Laravel Sponsors
+### Vue.js
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Vue.js é um framework JavaScript progressivo para construir interfaces de usuário. Ele é projetado para ser fácil de adotar e integrar com outros projetos. Vue.js é conhecido por sua simplicidade e flexibilidade, permitindo que os desenvolvedores escrevam código limpo e eficiente.
 
-### Premium Partners
+Vue.js também oferece uma variedade de recursos avançados, como componentes reutilizáveis, transições de animação, e um sistema de roteamento. Além disso, Vue.js tem uma curva de aprendizado suave, tornando-o acessível para desenvolvedores de todos os níveis de experiência.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+A combinação de PHP, Laravel, e Vue.js permite que este projeto ofereça uma experiência de usuário rica e dinâmica, ao mesmo tempo em que mantém a lógica do servidor robusta e segura.

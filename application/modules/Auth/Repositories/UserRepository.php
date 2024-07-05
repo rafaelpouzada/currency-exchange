@@ -87,7 +87,7 @@ class UserRepository extends DbRepository implements IUserRepository
         $tokenResult    = $user->createToken('accessToken')->toArray();
         $token          = [
             'access_token'  => Arr::get($tokenResult, 'accessToken'),
-            'expires_at'    => Arr::get($tokenResult, 'token.expires_at '),
+            'expires_at'    => Arr::get($tokenResult, 'token.expires_at'),
         ];
 
         return new UserToken($token);
