@@ -34,7 +34,6 @@
                     </v-card-actions>
                     <v-card-text class="text-center">
                         <v-btn text color="primary" @click="goToRegister">Register</v-btn>
-                        <v-btn text color="primary" @click="goToForgotPassword">Forgot Password?</v-btn>
                     </v-card-text>
                 </v-card>
             </v-flex>
@@ -76,16 +75,14 @@ export default {
                     password: this.password,
                 })
                     .then(response => {
-                        // Handle successful registration
                         const userData      = response.data.data;
                         const accessToken   = userData.token.access_token;
                         localStorage.setItem('user-token', accessToken);
+                        localStorage.setItem('userData', JSON.stringify(userData));
                         this.$store.dispatch('user/setUserData', userData); // Adicione o namespace 'user'
                         this.$router.push({ name: 'admin.home' });
                     })
                     .catch(error => {
-                        console.log(error);
-                        // Handle error during registration
                         let errorMessage = 'An error occurred while authenticating';
                         if (error.response && error.response.data && error.response.data.errors) {
                             errorMessage   = error.response.data.message;
@@ -103,9 +100,6 @@ export default {
         },
         goToRegister() {
             this.$router.push({name: 'register'});
-        },
-        goToForgotPassword() {
-            this.$router.push({name: 'recovery-password'});
         }
     },
 };

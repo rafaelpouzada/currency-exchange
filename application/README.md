@@ -48,3 +48,8 @@ Vue.js é um framework JavaScript progressivo para construir interfaces de usuá
 Vue.js também oferece uma variedade de recursos avançados, como componentes reutilizáveis, transições de animação, e um sistema de roteamento. Além disso, Vue.js tem uma curva de aprendizado suave, tornando-o acessível para desenvolvedores de todos os níveis de experiência.
 
 A combinação de PHP, Laravel, e Vue.js permite que este projeto ofereça uma experiência de usuário rica e dinâmica, ao mesmo tempo em que mantém a lógica do servidor robusta e segura.
+
+### Evidências de Testes
+
+//adicionar o gif de testes currency_exchange.gif
+![Testes](

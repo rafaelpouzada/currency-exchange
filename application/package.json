@@ -24,6 +24,7 @@
         "vuex": "^3.6.2"
     },
     "dependencies": {
+        "moment": "^2.30.1",
         "vue-toastification": "^1.7.14"
     }
 }

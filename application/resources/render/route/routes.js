@@ -1,9 +1,9 @@
 import LandingPage from '../views/LandingPage';
 import LoginForm from "../views/LoginForm.vue";
 import RegisterForm from '../views/RegisterForm';
-import ForgotPassword from '../views/ForgotPassword';
-import AdminHome from '../views/admin/AdminHome';
-import AdminComponent from '../views/admin/AdminComponent';
+import QuotationList from '../views/admin/QuotationList';
+import AdminComponent from '../views/components/AdminComponent.vue';
+import CreateQuotation from "../views/admin/CreateQuotation.vue";
 
 export default {
   routes: [
@@ -14,13 +14,8 @@ export default {
     },
     {
       path: '/login',
+      name: 'login',
       component: LoginForm,
-      meta: { requiresAuth: false },
-    },
-    {
-      path: "/recovery-password",
-      name: "recovery-password",
-      component: ForgotPassword,
       meta: { requiresAuth: false },
     },
     {
@@ -36,10 +31,16 @@ export default {
       children: [
         {
             path: 'home',
-            component: AdminHome,
+            component: QuotationList,
             name: 'admin.home',
             meta: { requiresAuth: true },
         },
+        {
+            path: 'quotation',
+            component: CreateQuotation,
+            name: 'admin.quotation',
+            meta: { requiresAuth: true },
+        }
       ],
     }
   ]

@@ -40,6 +40,7 @@ class CurrencyConversionFinder implements Contracts\ICurrencyConversionFinder
      */
     public function paginate(array $query = []): LengthAwarePaginator
     {
+        $query['with'] = ['user'];
         return $this->repository->paginate($query);
     }
 }

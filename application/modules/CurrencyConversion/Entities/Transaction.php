@@ -16,5 +16,17 @@ use Shared\Entities\Entity;
  */
  class Transaction extends Entity
 {
+    protected array $casts = [
+        'amount' => 'float',
+        'rate'   => 'float'
+    ];
 
+    /**
+     * @param mixed $values
+     * @return void
+     */
+    public function setUserAttribute(mixed $values): void
+    {
+        $this->attributes['user'] = new User($values);
+    }
 }
